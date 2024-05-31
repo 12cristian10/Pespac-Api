@@ -4,6 +4,8 @@ import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { serverConstants as constants} from './config/constans';
+import passport from './infraestructure/authentication/strategy/jwtStrategy';
+import authRoute from './presentation/routes/authRoute';
 import path from "path";
 import moment from "moment-timezone";
 
@@ -28,6 +30,29 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(
+  session({
+    secret: constants.session.secret,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Se inicializa passport
+app.use(passport.initialize());
+
+passport.serializeUser((user: any, done: any) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user: any, done: any) => {
+  done(null, user);
+});
+
+
+// Rutas de la aplicación
+app.use("/auth", authRoute);
 
 app.get("/", (req, res) => {
     res.send("Hola mundo");

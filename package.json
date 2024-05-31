@@ -9,7 +9,11 @@
     "dev": "nodemon src/app.ts",
     "build": "npx tsc ",
     "start:dev": "ts-node src/app.ts",
-    "database": "npx prisma db pull && npx prisma generate"
+    "database": "npx prisma db pull && npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev --schema ./src/infraestructure/prisma/schema.prisma",
+    "prisma:generate": "npx prisma generate --schema ./src/infraestructure/prisma/schema.prisma"
+
+
   },
   "keywords": [],
   "author": "",

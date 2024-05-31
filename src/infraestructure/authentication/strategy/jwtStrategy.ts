@@ -1,22 +1,17 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { serverConstants as constants } from '../../config/constans';
-import { DBconstants as db } from '../../config/constans';
+import { serverConstants as constants } from '../../../config/constans';
+import userRepository from '../../repository/UserRepository';
+import { LoginDTO } from '../../../domain/dtos/loginDto';
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: constants.jwt.secret,
 };
 
-interface JwtPayload {
-    email: string;
-    password: string;
-    role: string;
-  }
-  
-  const verifyCallback = async (jwtPayload: JwtPayload, done: any) => {
+  const verifyCallback = async (jwtPayload: LoginDTO, done: any) => {
     try {
-      const user = await userController.getUserByEmail(jwtPayload.email);
+      const user = await userRepository.findByEmail(jwtPayload.email);
       if (user) {
         return done(null, user);
       }
