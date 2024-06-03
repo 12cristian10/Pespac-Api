@@ -15,11 +15,11 @@ import { DBconstants as constants} from "../../config/constans";
     }
 
     async function updateUser(user: User): Promise<User> {
-        return await constants.prisma.user.update({ where: { email: user.email }, data: user });
+        return await constants.prisma.user.update({ where: { dni: user.dni }, data: user });
     }
 
-    async function deleteUser(email: string): Promise<User> {
-        return await constants.prisma.user.delete({ where: { email } });
+    async function deleteUser(dni: string): Promise<User> {
+        return await constants.prisma.user.delete({ where: { dni } });
     }
 
     export default { findByEmail, findByDni, createUser, updateUser, deleteUser };

@@ -3,12 +3,13 @@ import userRepository from '../../infraestructure/repository/UserRepository';
 import passwordOptions from '../../infraestructure/authentication/PasswordOptions';
 import { Fisherman } from '../../domain/entities/Fisherman';
 import fishermanService from '../../application/services/FishermanService';
-import { serviceConstants, serverConstants } from '../../config/constans';
+import { serverConstants } from '../../config/constans';
 
     async function register(user: User): Promise<User | null> {
         const userExist = await userRepository.findByEmail(user.email);
-        console.log(userExist);
-        if (userExist) {
+        const userExistDni = await userRepository.findByDni(user.dni);
+
+        if (userExist && userExistDni) {
             return null;
         }else{
             const hashedPassword = await passwordOptions.hashPassword(user.password);

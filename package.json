@@ -12,14 +12,13 @@
     "database": "npx prisma db pull && npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev --schema ./src/infraestructure/prisma/schema.prisma",
     "prisma:generate": "npx prisma generate --schema ./src/infraestructure/prisma/schema.prisma"
-
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.14.0",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.2.0",
     "cookie-parser": "^1.4.6",
@@ -35,9 +34,11 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
@@ -50,6 +51,7 @@
     "@types/multer": "^1.4.11",
     "@types/passport": "^1.0.16",
     "@types/passport-jwt": "^4.0.1",
+    "@types/uuid": "^9.0.8",
     "nodemon": "^3.1.1",
     "prisma": "^5.14.0"
   }

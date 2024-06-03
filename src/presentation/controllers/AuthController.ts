@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import authService from '../../application/services/AuthService';
 import authOptions from '../../infraestructure/authentication/AuthOptions';
 import { User } from '../../domain/entities/User';
-import { Fisherman } from '../../domain/entities/Fisherman';
-import { serviceConstants, serverConstants } from '../../config/constans';
+import { serviceConstants} from '../../config/constans';
 import { validationResult } from 'express-validator';
 
     async function register(req: Request, res: Response): Promise<Response> {

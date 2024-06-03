@@ -2,7 +2,7 @@ import fishermanRepository from "../../infraestructure/repository/FishermanRepos
 import { Fisherman } from "../../domain/entities/Fisherman";
 
 
-export async function createFisherman(fisherman: Fisherman): Promise<Fisherman> {
+export async function createFisherman(fisherman: Fisherman): Promise<Fisherman | null> {
     return await fishermanRepository.create(fisherman);
 }
 export async function updateFisherman(dni: string, score: number): Promise<boolean> {

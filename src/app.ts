@@ -5,7 +5,8 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { serverConstants as constants} from './config/constans';
 import passport from './infraestructure/authentication/strategy/jwtStrategy';
-import authRoute from './presentation/routes/authRoute';
+import authRoute from './presentation/routes/AuthRoute';
+import fishermanRoute from './presentation/routes/FishermanRoute';
 import path from "path";
 import moment from "moment-timezone";
 
@@ -53,6 +54,7 @@ passport.deserializeUser((user: any, done: any) => {
 
 // Rutas de la aplicación
 app.use("/auth", authRoute);
+app.use("/fisherman", fishermanRoute);
 
 app.get("/", (req, res) => {
     res.send("Hola mundo");
