@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 import CategoryService from "../../application/services/CategoryService";
 import { Category } from "../../domain/entities/Category";
+import { validationResult } from "express-validator";
 
 async function createCategory(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const category = {
             name: req.body.name,
             description: req.body.description,
@@ -27,6 +33,10 @@ async function createCategory(req: Request, res: Response): Promise<Response> {
 
 async function updateCategory(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const categoryOld = { 
             name: req.body.name, 
             description: req.body.description
@@ -49,6 +59,10 @@ async function updateCategory(req: Request, res: Response): Promise<Response> {
 
 async function getCategory(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { id } = req.params;
 
         const category = await CategoryService.getCategory(Number(id));
@@ -68,6 +82,10 @@ async function getCategory(req: Request, res: Response): Promise<Response> {
 
 async function deleteCategory(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { id } = req.params;
         const categoryDeleted = await CategoryService.deleteCategory(Number(id));
         if (categoryDeleted) {

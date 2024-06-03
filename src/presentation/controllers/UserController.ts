@@ -2,9 +2,16 @@ import { Request, Response } from 'express';
 import { User } from '../../domain/entities/User';
 import userService from '../../application/services/UserService';
 import { serviceConstants } from '../../config/constans';
+import { validationResult } from 'express-validator';
 
 async function updateUser(req: Request, res: Response): Promise<Response> {
     try{
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const userOld = {
             dni: req.body.dni,
             dniType: req.body.dniType,
@@ -41,6 +48,10 @@ async function updateUser(req: Request, res: Response): Promise<Response> {
 
 async function getUser(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { dni } = req.params;
         const user = await userService.getUser(dni);
         if (user) {
@@ -59,6 +70,10 @@ async function getUser(req: Request, res: Response): Promise<Response> {
 
 async function deleteUser(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { dni } = req.params;
         const userDeleted = await userService.deleteUser(dni);
         if (userDeleted) {

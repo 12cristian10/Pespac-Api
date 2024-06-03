@@ -6,6 +6,11 @@ import cookieParser from 'cookie-parser';
 import { serverConstants as constants} from './config/constans';
 import passport from './infraestructure/authentication/strategy/jwtStrategy';
 import authRoute from './presentation/routes/AuthRoute';
+import userRoute from './presentation/routes/UserRoute';
+import categoryRoute from './presentation/routes/CategoryRoute';
+import productRoute from './presentation/routes/ProductRoute';
+import orderRoute from './presentation/routes/OrderRoute';
+import locationRoute from './presentation/routes/LocationRoute';
 import fishermanRoute from './presentation/routes/FishermanRoute';
 import path from "path";
 import moment from "moment-timezone";
@@ -53,8 +58,13 @@ passport.deserializeUser((user: any, done: any) => {
 
 
 // Rutas de la aplicación
-app.use("/auth", authRoute);
-app.use("/fisherman", fishermanRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/category", categoryRoute);
+app.use("/api/product", productRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/location", locationRoute);
+app.use("/api/fisherman", fishermanRoute);
 
 app.get("/", (req, res) => {
     res.send("Hola mundo");

@@ -1,9 +1,14 @@
 import { Request, Response } from 'express';
 import { Fisherman } from '../../domain/entities/Fisherman';
 import  fishermanService  from '../../application/services/FishermanService';
+import { validationResult } from 'express-validator';
 
     async function registerFisherman(req: Request, res: Response): Promise<Response> {
         try{
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
             const fishermanRegister = {
                 dniUser: req.body.dni,
                 score: 0,
@@ -28,6 +33,10 @@ import  fishermanService  from '../../application/services/FishermanService';
 
     async function updateFisherman(req: Request, res: Response): Promise<Response> {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
             const { dni, score } = req.body;
             const fishermanUpdated = await fishermanService.updateFisherman(dni, score);
             if (fishermanUpdated) {
@@ -46,6 +55,12 @@ import  fishermanService  from '../../application/services/FishermanService';
 
     async function getFisherman(req: Request, res: Response): Promise<Response> {
         try {
+
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
+            
             const { dni } = req.params;
             const fisherman = await fishermanService.getFisherman(dni);
             if (fisherman) {

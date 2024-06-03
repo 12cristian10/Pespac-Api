@@ -32,3 +32,5 @@ router.put('/profilePicture',
     multerOptions.single('profilePicture'),
     (req: Request, res: Response) => UserController.uploadProfilePicture(req, res)
 );
+
+export default router;

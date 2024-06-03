@@ -2,9 +2,15 @@ import ProductService from "../../application/services/ProductService";
 import { Product } from "../../domain/entities/Product";
 import { Request, Response } from "express";
 import { serviceConstants as constants } from "../../config/constans";
+import { validationResult } from "express-validator";
 
 async function createProduct(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const productRegister = {
             name: req.body.name,
             description: req.body.description,
@@ -32,6 +38,11 @@ async function createProduct(req: Request, res: Response): Promise<Response> {
 
 async function updateProduct(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const product = {
             name: req.body.name,
             description: req.body.description,
@@ -57,6 +68,10 @@ async function updateProduct(req: Request, res: Response): Promise<Response> {
 
 async function getProduct(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { id } = req.params;
         const product = await ProductService.getProduct(Number(id));
         if (product) {
@@ -88,6 +103,11 @@ async function getProducts(req: Request, res: Response): Promise<Response> {
 
 async function deleteProduct(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { id } = req.params;
         const productDeleted = await ProductService.deleteProduct(Number(id));
         if (productDeleted) {
@@ -106,6 +126,12 @@ async function deleteProduct(req: Request, res: Response): Promise<Response> {
 
 async function uploadProductImage(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const id = req.body.id;
         const picture = req.file as any;
 
@@ -126,6 +152,12 @@ async function uploadProductImage(req: Request, res: Response): Promise<Response
 
 async function getProductsByCategory(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { categoryId } = req.params;
         const products = await ProductService.getProductByCategory(Number(categoryId));
         return res.status(200).json(products);
@@ -140,6 +172,12 @@ async function getProductsByCategory(req: Request, res: Response): Promise<Respo
 
 async function getProductsByNames(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { name } = req.params;
         const products = await ProductService.getProductByName(name);
         return res.status(200).json(products);
@@ -154,6 +192,12 @@ async function getProductsByNames(req: Request, res: Response): Promise<Response
 
 async function getProductsByFisherman(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { fishermanDni } = req.params;
         const products = await ProductService.getProductByFishermanDni(fishermanDni);
         return res.status(200).json(products);
@@ -168,6 +212,12 @@ async function getProductsByFisherman(req: Request, res: Response): Promise<Resp
 
 async function getProductsByPeriod(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { start, end } = req.params;
         const startDate = new Date(start);
         const endDate = new Date(end);
@@ -184,6 +234,10 @@ async function getProductsByPeriod(req: Request, res: Response): Promise<Respons
 
 async function updateProductStock(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { id, stock } = req.body;
         const productUpdated = await ProductService.updateProductStock(id, stock);
         if (productUpdated) {

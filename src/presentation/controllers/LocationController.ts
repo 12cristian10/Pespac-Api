@@ -2,9 +2,14 @@ import LocationService from "../../application/services/LocationService";
 import e, { Request, Response } from "express";
 import { Location } from "../../domain/entities/Location";
 import locationOptions from "../../infraestructure/location/locationOptions";
+import { validationResult } from "express-validator";
 
 async function createLocation(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const address = req.body.address + ', ' + req.body.neighborhood + ', ' + req.body.city + ', ' + req.body.country;
         const { latitude, longitude, success } = await locationOptions.getLatLong(address);
         if (!success) {
@@ -38,6 +43,10 @@ async function createLocation(req: Request, res: Response): Promise<Response> {
 
 async function updateLocation(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const address = req.body.address + ', ' + req.body.neighborhood + ', ' + req.body.city + ', ' + req.body.country;
         const { latitude, longitude, success } = await locationOptions.getLatLong(address);
         if (!success) {
@@ -70,6 +79,12 @@ async function updateLocation(req: Request, res: Response): Promise<Response> {
 
 async function getLocation(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { id } = req.params;
         const location = await LocationService.getLocation(Number(id));
         if (location) {
@@ -88,6 +103,12 @@ async function getLocation(req: Request, res: Response): Promise<Response> {
 
 async function deleteLocation(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        
         const { id } = req.params;
         const locationDeleted = await LocationService.deleteLocation(Number(id));
         if (locationDeleted) {

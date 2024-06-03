@@ -2,9 +2,16 @@ import { Request, Response } from "express";
 import { Order } from "../../domain/entities/Order";
 import orderService from "../../application/services/OrderService";
 import { generateOrderId } from "../../infraestructure/identificadores/OrderId";
+import { validationResult } from "express-validator";
 
 async function createOrder(req: Request, res: Response): Promise<Response> {
     try {
+
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
         const currentDate = new Date();
         const deliveryDate = new Date();
@@ -37,6 +44,11 @@ async function createOrder(req: Request, res: Response): Promise<Response> {
 
 async function updateOrder(req: Request, res: Response): Promise<Response> {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { id, status } = req.body;
         const orderUpdated = await orderService.updateOrder(id, status);
         if (orderUpdated) {
@@ -55,6 +67,12 @@ async function updateOrder(req: Request, res: Response): Promise<Response> {
 
 async function getOrder(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { id } = req.params;
         const order = await orderService.getOrder(id);
         if (order) {
@@ -73,6 +91,12 @@ async function getOrder(req: Request, res: Response): Promise<Response> {
 
 async function deleteOrder(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const { id } = req.params;
         const orderDeleted = await orderService.deleteOrder(id);
         if (orderDeleted) {
@@ -91,6 +115,7 @@ async function deleteOrder(req: Request, res: Response): Promise<Response> {
 
 async function getOrders(req: Request, res: Response): Promise<Response> {
     try {
+
         const orders = await orderService.getOrders();
         return res.status(200).json(orders);
     } catch (error) {
@@ -104,6 +129,11 @@ async function getOrders(req: Request, res: Response): Promise<Response> {
 
 async function getOrdersByUserDni(req: Request, res: Response): Promise<Response> {
     try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
         const { dni } = req.params;
         const orders = await orderService.getOrdersByUserDni(dni);
         return res.status(200).json(orders);
