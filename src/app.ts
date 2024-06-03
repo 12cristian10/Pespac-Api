@@ -31,7 +31,7 @@ app.use(cookieParser());
 
 // Configuración de CORS
 const corsOptions = {
-  origin: "http://192.168.1.4:5500", // Reemplazar con dominio en producción
+  origin: "*", // Reemplazar con dominio en producción
   optionsSuccessStatus: 200,
 };
 

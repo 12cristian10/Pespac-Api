@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  products    Product[]
+}
+
+model Product {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String
+  price        Float
+  categoryId   Int
+  category     Category      @relation(fields: [categoryId], references: [id], onUpdate: NoAction, onDelete: Cascade)
+  stock        Int           @default(0)
+  image        String?
+  fishermanDni String
+  fisherman    Fisherman     @relation(fields: [fishermanDni], references: [dniUser], onUpdate: NoAction, onDelete: NoAction)
+  orderDetails OrderDetail[]
+  productDate  DateTime      @default(now())
+}
+
+model Order {
+  id           String        @id
+  userDni      String
+  user         User          @relation(fields: [userDni], references: [dni], onUpdate: NoAction, onDelete: NoAction)
+  total        Float
+  status       String
+  orderDate    DateTime      @default(now())
+  DeliveryDate DateTime
+  orderDetails OrderDetail[]
+  locationId   Int
+  location     location      @relation(fields: [locationId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model OrderDetail {
+  id        Int     @id @default(autoincrement())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  quantity  Int
+  total     Float
+}
+
+model User {
+  dni            String     @id @unique
+  dniType        String
+  email          String     @unique
+  password       String
+  name           String
+  lastName       String
+  role           String
+  phone          String
+  fisherman      Fisherman?
+  ProfilePicture String?
+  orders         Order[]
+}
+
+model Fisherman {
+  dniUser    String    @id
+  score      Float     @default(0)
+  locationId Int
+  location   location  @relation(fields: [locationId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  products   Product[]
+  User       User      @relation(fields: [dniUser], references: [dni], onDelete: Cascade)
+}
+
+model location {
+  id           Int         @id @default(autoincrement())
+  country      String
+  department   String
+  city         String
+  neighborhood String
+  address      String
+  latitude     Float
+  longitude    Float
+  fisherman    Fisherman[]
+  order        Order[]
+}
