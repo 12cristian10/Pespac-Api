@@ -9,9 +9,10 @@
     "dev": "nodemon src/app.ts",
     "build": "npx tsc",
     "start:dev": "ts-node src/app.ts",
-    "database": "npx prisma db pull && npx prisma generate",
-    "prisma:migrate": "npx prisma migrate dev --schema ./src/infraestructure/prisma/schema.prisma",
-    "prisma:generate": "npx prisma generate --schema ./src/infraestructure/prisma/schema.prisma"
+    "database": "npm run prisma:generate && npm run prisma:migrate && npm run prisma:db:push",
+    "prisma:generate": "npx prisma generate --schema=./src/infraestructure/prisma/schema.prisma",
+    "prisma:migrate": "npx prisma migrate deploy --schema=./src/infraestructure/prisma/schema.prisma --name m1",
+    "prisma:db:push": "npx prisma db push --schema=./src/infraestructure/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
