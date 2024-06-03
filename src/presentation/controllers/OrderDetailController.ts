@@ -119,4 +119,4 @@ async function getOrderDetailByProduct(req: Request, res: Response): Promise<Res
         }
     }
 }
-export { createOrderDetail, updateOrderDetail, getOrderDetail, getOrderDetails, getOrderDetailByProduct};
+export default { createOrderDetail, updateOrderDetail, getOrderDetail, getOrderDetails, getOrderDetailByProduct};
